@@ -6,17 +6,17 @@
 
 Claude Code 在對話壓縮後會以 `source: "compact"` 再跑一次 SessionStart，`hooks/hooks.json` 的 matcher 有列 compact。Codex 另有獨立的 `post_compact` 事件，SessionStart 在壓縮後會不會再觸發沒查到。驗法：Codex 裝好後把對話撐到壓縮，看 agent 有沒有重新載入 duck。不會的話在 `hooks/hooks.json` 加 PostCompact，並確認 Claude Code 對 PostCompact 的輸出也收進上下文。
 
-## Codex 上外掛 hook 的三個未驗證點
+## Codex 上外掛 hook 還沒驗證
 
-`${CLAUDE_PLUGIN_ROOT}` 在 Codex 的 hook 指令裡會不會展開（ponytail 這樣寫並說可用；i-have-adhd 保守地用 `node -e` 讀 `PLUGIN_ROOT`）；第一次載入 hook 是否要在 `/hooks` 按信任；skill 是打 `$duck` 還是帶外掛前綴。三個都在第一次 `codex plugin add` 後看，結果寫回 README 安裝段。
+2026-09-05 這台的 Codex 是手動把 repo clone 進 `~/.codex/plugins/cache/i-am-the-duck/i-am-the-duck/0.0.1/` 並在 config.toml 加 `[plugins."i-am-the-duck@i-am-the-duck"]`，因為 repo 私有、`codex plugin add` 走 https clone 會失敗。skill 已被認出（`codex exec` 看到 `i-am-the-duck:duck`），但 hook 在 `/hooks` 按信任前會被跳過，所以還沒看到它送提示。待辦：在 Codex 裡打 `/hooks` 信任 hook，開新 session 看第一句前有沒有載入；`${CLAUDE_PLUGIN_ROOT}` 在 Codex 的 hook 指令裡會不會展開也在這一步才知道。repo 公開後把手動放的那份拆掉（`codex plugin remove`，不行就刪快取目錄和 config 那段），改用 `codex plugin marketplace add davidleitw/i-am-the-duck` 加 `codex plugin add` 正式裝一次。
 
 ## `.codex-plugin/plugin.json` 的 interface 哪些欄位必填
 
-現在照 ponytail 填了 displayName、shortDescription、longDescription、developerName、category、capabilities、websiteURL、logo、composerIcon。沒查 Codex 文件哪些是必要的。`codex plugin add` 成功就刪這條，失敗就補欄位。
+現在照 ponytail 填了 displayName、shortDescription、longDescription、developerName、category、capabilities、websiteURL、logo、composerIcon。手動放進快取後 `codex plugin list` 讀得出名字和版本，但 `codex plugin add` 沒真的跑過，它的驗證可能更嚴。正式裝一次成功就刪這條。
 
-## 兩台機器從舊版換過來
+## 另一台機器從舊版換過來
 
-兩台都還是舊版手動安裝（`~/.claude/skills/duck`、`digest`、`~/.agents/skills/` 同名目錄、settings.json 和 `~/.codex/hooks.json` 各一條 hook、`~/.rubberduck/`）。順序：先在 checkout 裡跑 `node skills/unduck/uninstall.mjs --yes` 清舊版，再 plugin install；反過來的話 `/unduck` 會連新版一起移掉。Unfold repo 裡的 `rubberduck/` 目錄、`docs/README.md` 的索引列、`TODO.md` 三條相關項目一併處理。
+這台 2026-09-05 已換完。另一台還是舊版手動安裝。順序：clone 這個 repo，先跑 `node skills/unduck/uninstall.mjs --yes` 清舊版（會刪 `~/.claude/skills/duck`、`digest`、`~/.agents/skills/` 同名目錄、兩個設定檔裡的 hook、`~/.rubberduck/`），再照 README 裝。Unfold repo 裡的 `rubberduck/` 目錄、`docs/README.md` 的索引列、Unfold `TODO.md` 三條相關項目一併處理。
 
 ## hero.png 太大
 
@@ -24,4 +24,4 @@ Claude Code 在對話壓縮後會以 `source: "compact"` 再跑一次 SessionSta
 
 ## skill 短名稱能不能用
 
-README 現在寫完整名稱 `/i-am-the-duck:duck`、`$i-am-the-duck:duck`（unduck 同）。Claude Code 對外掛 skill 一律加 `外掛名:` 前綴，短名 `/duck` 在沒有同名 skill 時能不能直接用沒驗證；Codex 的 `$` 寫法要不要前綴也沒驗證。裝好後各試一次，能用短名就把 README 兩份和 `hooks/session-start.mjs` 裡的提示改短。
+兩台主機都把 skill 列成 `i-am-the-duck:duck`（Claude 用 `claude -p`、Codex 用 `codex exec` 各問過一次，2026-09-05）。互動時打短名 `/duck`、`$duck` 能不能直接叫到還沒試。能的話把 README 兩份和 `hooks/session-start.mjs` 的提示改短。
