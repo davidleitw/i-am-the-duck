@@ -9,7 +9,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/davidleitw/i-am-the-duck.git",
-        "ref": "main"
+        "ref": "master"
       },
       "policy": {
         "installation": "AVAILABLE",

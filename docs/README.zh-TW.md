@@ -8,7 +8,7 @@
 
 橡皮鴨除錯法是個老招：把你的程式一行一行講給桌上的橡皮鴨聽，講到一半，bug 自己就找到了。鴨子什麼都沒做，有用的是「非得用白話講出來」這件事。
 
-這個外掛把它反過來。做事的是 coding agent，鴨子是你。它得把每一步講到你不用看程式碼、不用看工具輸出也能跟上：要改什麼、為什麼改、改完怎樣、根據是什麼、還有什麼沒確認。
+這個外掛把它反過來。做事的是 coding agent，鴨子是你。它得把每個改動講到你不用看程式碼、不用看工具輸出也能跟上：要改什麼、為什麼改、改完怎樣、根據是什麼、還有什麼沒確認。
 
 一開始是惡搞，留下來是因為一個非得用白話解釋改動的 agent，也會在改動說不出理由的時候自己發現。
 
@@ -48,9 +48,9 @@ codex plugin marketplace add davidleitw/i-am-the-duck
 codex plugin add i-am-the-duck@i-am-the-duck
 ```
 
-開一個新 session。每次 session 開頭和對話被壓縮之後，會有一個小程式自動跑一次，叫 agent 去載入規則，你不用打任何東西。Codex 可能會問你一次要不要信任這個 hook。
+需要 PATH 上有 `node`。開一個新 session：每次 session 開頭和對話被壓縮之後，會有一個小程式自動跑一次，叫 agent 去載入規則，你不用打任何東西。Codex 要先打 `/hooks`，看過這個 hook 並按信任，沒按之前 Codex 會跳過它。
 
-agent 又開始講速記的時候，在 Claude Code 打 `/duck`，在 Codex 打 `$duck`。
+agent 又開始講速記的時候，在 Claude Code 打 `/i-am-the-duck:duck`，在 Codex 打 `$i-am-the-duck:duck`。
 
 ## 調整
 
@@ -58,10 +58,10 @@ agent 又開始講速記的時候，在 Claude Code 打 `/duck`，在 Codex 打 
 
 ## 移除
 
-在 Claude Code 打 `/unduck`，在 Codex 打 `$unduck`。它會列出要刪的東西，等你說好，先清掉舊版手動安裝的殘留，再移除外掛。也可以自己來：
+在 Claude Code 打 `/i-am-the-duck:unduck`，在 Codex 打 `$i-am-the-duck:unduck`。它會列出要刪的東西，等你說好，先清掉舊版手動安裝的殘留，再移除外掛。也可以自己來：
 
 ```
-claude plugin uninstall i-am-the-duck@i-am-the-duck
+claude plugin uninstall i-am-the-duck@i-am-the-duck   # 裝在 project 或 local 的話加 --scope
 codex plugin remove i-am-the-duck@i-am-the-duck
 ```
 
@@ -71,7 +71,7 @@ codex plugin remove i-am-the-duck@i-am-the-duck
 |---|---|
 | `skills/duck/SKILL.md` | 規則本體。agent 讀的就是這個。 |
 | `skills/unduck/` | 移除用的 skill 和它叫的腳本。 |
-| `hooks/` | session 開頭跑的 hook，只印一句叫 agent 載入規則。 |
+| `hooks/` | session 開頭跑的 hook：一句叫 agent 載入規則，壓縮後叫它重載。 |
 | `.claude-plugin/`、`.codex-plugin/`、`.agents/` | 兩台主機找外掛用的設定檔。 |
 
 ## 怎麼來的

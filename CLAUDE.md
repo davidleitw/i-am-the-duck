@@ -17,7 +17,7 @@ i-am-the-duck is a Claude Code + Codex plugin: one rule skill (`skills/duck`), o
 ## Checks before committing
 
 ```
-node --check hooks/session-start.mjs skills/unduck/uninstall.mjs
+for f in hooks/session-start.mjs skills/unduck/uninstall.mjs; do node --check "$f"; done   # one file per call: node --check ignores extra arguments
 echo '{"source":"compact"}' | node hooks/session-start.mjs
 node skills/unduck/uninstall.mjs          # read-only: lists what an older install left behind
 for f in .claude-plugin/*.json .codex-plugin/*.json .agents/plugins/*.json hooks/hooks.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done

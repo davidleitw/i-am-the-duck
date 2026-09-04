@@ -21,3 +21,7 @@ Claude Code 在對話壓縮後會以 `source: "compact"` 再跑一次 SessionSta
 ## hero.png 太大
 
 `assets/hero.png` 1.3 MB，README 開頭就載入它。這台沒有 pngquant、oxipng、ImageMagick、PIL，沒法壓。裝其中一個後把它量化成 256 色 PNG，扁平插畫應該能到 300 KB 以下；README 顯示寬度 800，1600 寬留給高解析螢幕即可。
+
+## skill 短名稱能不能用
+
+README 現在寫完整名稱 `/i-am-the-duck:duck`、`$i-am-the-duck:duck`（unduck 同）。Claude Code 對外掛 skill 一律加 `外掛名:` 前綴，短名 `/duck` 在沒有同名 skill 時能不能直接用沒驗證；Codex 的 `$` 寫法要不要前綴也沒驗證。裝好後各試一次，能用短名就把 README 兩份和 `hooks/session-start.mjs` 裡的提示改短。

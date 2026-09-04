@@ -9,7 +9,13 @@
   "homepage": "https://github.com/davidleitw/i-am-the-duck",
   "repository": "https://github.com/davidleitw/i-am-the-duck",
   "license": "MIT",
-  "keywords": ["rubber-duck", "plain-words", "explain", "narration", "claude-code", "codex"],
-  "skills": "./skills/",
-  "hooks": "./hooks/hooks.json"
+  "keywords": [
+    "rubber-duck",
+    "plain-words",
+    "explain",
+    "narration",
+    "claude-code",
+    "codex"
+  ],
+  "skills": "./skills/"
 }

@@ -10,7 +10,7 @@ Rubber duck debugging, reversed. You are the duck.
 
 Rubber duck debugging is the old trick where you explain your code, line by line, to a rubber duck on your desk. Somewhere in the explanation you find the bug yourself. The duck does nothing. Having to say it out loud, in plain words, is what works.
 
-This plugin turns that around. The coding agent does the work, and you are the duck. It has to explain every step in words you can follow without reading the code or the tool output: what it is about to change and why, what came of it, what that rests on, and what it has not checked.
+This plugin turns that around. The coding agent does the work, and you are the duck. It has to explain every change in words you can follow without reading the code or the tool output: what it is about to change and why, what came of it, what that rests on, and what it has not checked.
 
 It started as a joke. It stayed because an agent that has to explain a change in plain words is also an agent that notices when the change has no good reason.
 
@@ -50,9 +50,9 @@ codex plugin marketplace add davidleitw/i-am-the-duck
 codex plugin add i-am-the-duck@i-am-the-duck
 ```
 
-Start a new session. A small hook runs at every session start and after context compaction and tells the agent to load the rules; you type nothing. Codex may ask you once to trust the hook.
+Needs `node` on your PATH. Start a new session: a small hook runs at every session start and after context compaction and tells the agent to load the rules, so you type nothing. In Codex, open `/hooks` once, review the hook and trust it; until you do, Codex skips it.
 
-If the agent drifts back into shorthand, type `/duck` in Claude Code or `$duck` in Codex.
+If the agent drifts back into shorthand, type `/i-am-the-duck:duck` in Claude Code or `$i-am-the-duck:duck` in Codex.
 
 ## Adjust
 
@@ -60,10 +60,10 @@ Say it in the conversation: shorter, more detail, step by step, or only the resu
 
 ## Uninstall
 
-Type `/unduck` in Claude Code or `$unduck` in Codex. It lists what it will remove, waits for your yes, cleans up anything left by an older hand-installed version, then removes the plugin. Or by hand:
+Type `/i-am-the-duck:unduck` in Claude Code or `$i-am-the-duck:unduck` in Codex. It lists what it will remove, waits for your yes, cleans up anything left by an older hand-installed version, then removes the plugin. Or by hand:
 
 ```
-claude plugin uninstall i-am-the-duck@i-am-the-duck
+claude plugin uninstall i-am-the-duck@i-am-the-duck   # add --scope project|local if you installed it there
 codex plugin remove i-am-the-duck@i-am-the-duck
 ```
 
@@ -73,7 +73,7 @@ codex plugin remove i-am-the-duck@i-am-the-duck
 |---|---|
 | `skills/duck/SKILL.md` | The rules. This is what the agent reads. |
 | `skills/unduck/` | The uninstall skill and the script it runs. |
-| `hooks/` | The session-start hook: one sentence telling the agent to load the rules. |
+| `hooks/` | The session-start hook: a short instruction telling the agent to load the rules, or to reload them after compaction. |
 | `.claude-plugin/`, `.codex-plugin/`, `.agents/` | The files each host reads to find the plugin. |
 
 ## Where it came from
