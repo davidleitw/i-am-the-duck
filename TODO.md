@@ -17,3 +17,7 @@ Claude Code 在對話壓縮後會以 `source: "compact"` 再跑一次 SessionSta
 ## 兩台機器從舊版換過來
 
 兩台都還是舊版手動安裝（`~/.claude/skills/duck`、`digest`、`~/.agents/skills/` 同名目錄、settings.json 和 `~/.codex/hooks.json` 各一條 hook、`~/.rubberduck/`）。順序：先在 checkout 裡跑 `node skills/unduck/uninstall.mjs --yes` 清舊版，再 plugin install；反過來的話 `/unduck` 會連新版一起移掉。Unfold repo 裡的 `rubberduck/` 目錄、`docs/README.md` 的索引列、`TODO.md` 三條相關項目一併處理。
+
+## hero.png 太大
+
+`assets/hero.png` 1.3 MB，README 開頭就載入它。這台沒有 pngquant、oxipng、ImageMagick、PIL，沒法壓。裝其中一個後把它量化成 256 色 PNG，扁平插畫應該能到 300 KB 以下；README 顯示寬度 800，1600 寬留給高解析螢幕即可。

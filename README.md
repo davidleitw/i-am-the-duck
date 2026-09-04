@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/hero.png" alt="A small robot at a laptop explains its work to a rubber duck. A bug crawls out of the code under a magnifying glass. A tag next to the duck reads /duck." width="800"></p>
+<p align="center"><img src="assets/hero.png" alt="A robot explains its code to a rubber duck." width="800"></p>
 
 # i-am-the-duck
 
@@ -24,13 +24,13 @@ With it:
 
 > Moved the timeout check from the hook into the daemon, so a restart no longer skips it. `npm test`: 24 passed, 0 failed. I did not run the Codex side; it is not installed here.
 
-Three habits, nothing more:
+Three habits:
 
 - **Before changing anything** with one clear purpose, one or two sentences: what will change and why. Reading, searching, and running tests need no announcement.
 - **After**, what it produced, what that rests on, and what is not confirmed. Every number comes with the command that produced it. "Passes" without a run behind it is not allowed.
 - **Words** are the ones you and the repository already use. One-off steps get no name. A new name appears only when it will come up again, and the first time it does, it is explained in one sentence. Labels from plans and tickets you never read get explained too.
 
-When the agent asks you to decide, each option comes with what was tried and the evidence. When it hands work to another agent, you get the summary in its own words, plus whether it checked the result.
+Decisions come with options and evidence. Work handed to another agent comes back summarized, with whether it was checked.
 
 It does not decide what you approve, how far a task goes, what is risky, or whether the code is right. It only makes the agent explain.
 
@@ -71,14 +71,14 @@ codex plugin remove i-am-the-duck@i-am-the-duck
 
 | Path | What it is |
 |---|---|
-| `skills/duck/SKILL.md` | The rules. 36 lines. This is what the agent reads. |
+| `skills/duck/SKILL.md` | The rules. This is what the agent reads. |
 | `skills/unduck/` | The uninstall skill and the script it runs. |
 | `hooks/` | The session-start hook: one sentence telling the agent to load the rules. |
 | `.claude-plugin/`, `.codex-plugin/`, `.agents/` | The files each host reads to find the plugin. |
 
 ## Where it came from
 
-Long agent sessions grow a private language. "All green" when the run said one failed. "Phase C" from a plan the user never opened. The user kept the right to decide and lost the information needed to decide. An earlier version of this tried to score every report each week; it cost more tokens than it saved and was dropped. What is left is the rule itself.
+Long agent sessions grow a private language. "All green" when the run said one failed. "Phase C" from a plan the user never opened. The user kept the right to decide and lost the information needed to decide.
 
 ## License
 
