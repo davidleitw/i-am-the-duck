@@ -1,0 +1,17 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "i-am-the-duck",
+  "description": "Rubber duck debugging, reversed: you are the duck.",
+  "owner": {
+    "name": "davidleitw",
+    "url": "https://github.com/davidleitw"
+  },
+  "plugins": [
+    {
+      "name": "i-am-the-duck",
+      "description": "The agent explains every step to you in plain words, with evidence, without inventing names.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

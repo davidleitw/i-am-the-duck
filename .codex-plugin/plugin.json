@@ -1,0 +1,26 @@
+{
+  "name": "i-am-the-duck",
+  "version": "0.0.1",
+  "description": "Rubber duck debugging, reversed: you are the duck. The agent explains every step in plain words, with evidence, without inventing names.",
+  "author": {
+    "name": "davidleitw",
+    "url": "https://github.com/davidleitw"
+  },
+  "homepage": "https://github.com/davidleitw/i-am-the-duck",
+  "repository": "https://github.com/davidleitw/i-am-the-duck",
+  "license": "MIT",
+  "keywords": ["rubber-duck", "plain-words", "explain", "narration", "codex"],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "I Am the Duck",
+    "shortDescription": "Rubber duck debugging, reversed",
+    "longDescription": "You are the duck. The agent explains every step in plain words, with evidence, without inventing names.",
+    "developerName": "davidleitw",
+    "category": "Productivity",
+    "capabilities": ["Instructions", "Lifecycle hooks"],
+    "websiteURL": "https://github.com/davidleitw/i-am-the-duck",
+    "composerIcon": "./assets/logo.png",
+    "logo": "./assets/logo.png"
+  }
+}

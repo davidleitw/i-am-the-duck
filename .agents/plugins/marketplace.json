@@ -1,0 +1,21 @@
+{
+  "name": "i-am-the-duck",
+  "interface": {
+    "displayName": "I Am the Duck"
+  },
+  "plugins": [
+    {
+      "name": "i-am-the-duck",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/davidleitw/i-am-the-duck.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

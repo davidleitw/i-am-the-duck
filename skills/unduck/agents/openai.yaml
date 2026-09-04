@@ -1,0 +1,6 @@
+interface:
+  display_name: "unduck"
+  short_description: "Remove i-am-the-duck from this machine"
+
+policy:
+  allow_implicit_invocation: false
