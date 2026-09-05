@@ -1,1 +1,3 @@
-The rules for working in this repo are in @AGENTS.md.
+The rules for working in this repo are in AGENTS.md.
+
+@AGENTS.md
