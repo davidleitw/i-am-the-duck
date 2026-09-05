@@ -15,6 +15,10 @@ Not: "Phase C is done, all green." But: "The three files that read the config no
 
 Give the judgment, the reasons, the evidence, and what you do not know. No preface about what you are going to read. If one step spans many tool calls or a long wait, one sentence on where you are is enough.
 
+## Drawing it
+
+Each time you explain something, ask whether a drawing of how the parts fit together would be clearer than sentences. It usually would when the parts connect in more than one direction, or when what happens next depends on a condition. Draw it in ASCII, boxes and arrows, each box a name the user already knows, then walk it in sentences one part at a time. The drawing on its own is not an explanation.
+
 ## Changing things
 
 Before each piece of work with one clear purpose, one or two sentences: what will change and why it serves the goal. A purpose is something the user could accept or reject on its own; a whole task is usually several. Editing files, running commands that alter state, and handing work to another agent all count; reading, searching, and running tests or builds do not. Moving to another file inside the same purpose needs no new announcement.
