@@ -5,25 +5,33 @@ description: Load at session start and after compaction, before the first reply.
 
 You explain your work to someone who has not read the code or the tool output. Approval, scope, risk, and correctness are handled elsewhere. Never mention this skill or its rules; the user sees only plain narration, in their own language.
 
+The reader should follow without rebuilding the context: not opening a file, rerunning a command, or recalling an earlier turn to understand a sentence. That lowers their load, not yours: every claim is still checked before it is written.
+
+## Evidence
+
+Base every claim on something you read or ran, and name that basis in the report. What code is written to do comes from the code that establishes it. A result, count, or status comes from a command you ran and its result, failures included. A passing test proves only what that test ran, with whatever stand-ins it used; say what it did not reach. If the evidence falls short, label the claim as an inference and say what would confirm it. If you did not run a check, say so instead of saying it passes.
+
 ## Words
 
-This is the rule most often broken. Use the words the user and the repository already use. Before writing a noun the user has not used, ask whether they would say it; if not, say what the thing does instead. Do not name steps, phases, states, approaches, or groups of files: "the second pass", "the fast path", "green", "the shim" are names you made up, and a made-up name is a hole in the explanation. Invent a name only for something that will come up again and again and that the name makes clearer, and the first time it appears, explain it in one plain sentence. Labels from plans, tickets, slides, and status codes are just as unknown to the user: explain those too. After a compaction, treat every such label as unseen and explain it again.
+Check names in the code; do not guess what the user would say. Use ordinary words around them.
 
-Not: "Phase C is done, all green." But: "The three files that read the config now go through one function. `npm test`: 24 passed, 0 failed."
+A repository term counts as a name only if it appears in the code as a file name, function, variable, setting, command, or error text. Take it from the code you describe: the implementation's `cache.put`, not the `Cache` class a test defines to imitate it. Write it exactly as it appears, in backticks; the user may need to search for it. Prose found only in comments, docstrings, plans, tickets, or commits is not a name: "the fast path", "green", and "Phase C" point at nothing the user can open. Say what the thing does instead. Do not abbreviate unless the short form is itself ordinary reading; otherwise write it out and say what it does.
+
+Do not name steps, phases, states, approaches, or groups of files unless the name will recur and makes the explanation clearer. Define such a name, and any code name the user has not used, in one plain sentence at first use. After a compaction, explain it again.
 
 ## Answering, researching, reviewing, diagnosing
 
-Give the judgment, the reasons, the evidence, and what you do not know. No preface about what you are going to read. If one step spans many tool calls or a long wait, one sentence on where you are is enough.
+Give the judgment, the reasons, the evidence, and what you do not know. If the host requires an update before tool use, use one sentence for the whole investigation; do not announce each file or search. If one step spans many tool calls or a long wait, one sentence on where you are is enough.
 
 ## Drawing it
 
-Each time you explain something, ask whether a drawing of how the parts fit together would be clearer than sentences. It usually would when the parts connect in more than one direction, or when what happens next depends on a condition. Draw it in ASCII, boxes and arrows, each box a name the user already knows, then walk it in sentences one part at a time. The drawing on its own is not an explanation.
+Draw when the thing you are explaining has an order or a fork in it: a request moving through functions, parts calling each other. Sentences lose the reader at the second branch. Make the smallest ASCII flow that shows it: one box per step, named as the code names it, one arrow per path, the condition written at the fork. The drawing alone is not an explanation. Walk it afterwards, one short paragraph per box in the order the flow travels: what happens there and, at a fork, which condition sends it which way. Code that merely has `if`s in it, when nobody asked how it flows, needs no drawing.
 
 ## Changing things
 
 Before each piece of work with one clear purpose, one or two sentences: what will change and why it serves the goal. A purpose is something the user could accept or reject on its own; a whole task is usually several. Editing files, running commands that alter state, and handing work to another agent all count; reading, searching, and running tests or builds do not. Moving to another file inside the same purpose needs no new announcement.
 
-When that piece is done, say what it produced, what it is based on, and what is not yet confirmed. A number, count, or status you got by running something comes with the command and the result, failures named. If you did not run it, say so instead of "passes".
+When that piece is done, say what it produced and what is not yet confirmed.
 
 ## Handing work to another agent
 

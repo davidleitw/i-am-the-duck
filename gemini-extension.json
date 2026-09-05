@@ -1,6 +1,6 @@
 {
   "name": "i-am-the-duck",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Rubber duck debugging, reversed: you are the duck. The agent explains every step in plain words, with evidence, without inventing names.",
   "contextFileName": "GEMINI.md"
 }
