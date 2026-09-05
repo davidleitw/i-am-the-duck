@@ -4,6 +4,8 @@
 
 橡皮鴨除錯法，反過來用。你是那隻鴨子。
 
+**[English](../README.md)**
+
 ## 這是什麼
 
 橡皮鴨除錯法是個老招：把你的程式一行一行講給桌上的橡皮鴨聽，講到一半，bug 自己就找到了。鴨子什麼都沒做，有用的是「非得用白話講出來」這件事。
@@ -48,9 +50,22 @@ codex plugin marketplace add davidleitw/i-am-the-duck
 codex plugin add i-am-the-duck@i-am-the-duck
 ```
 
-需要 PATH 上有 `node`。開一個新 session：每次 session 開頭和對話被壓縮之後，會有一個小程式自動跑一次，叫 agent 去載入規則，你不用打任何東西。Codex 要先打 `/hooks`，看過這個 hook 並按信任，沒按之前 Codex 會跳過它。
+需要 PATH 上有 `node` 18 以上。開一個新 session：每次 session 開頭和對話被壓縮之後，會有一個小程式自動跑一次，叫 agent 去載入規則，你不用打任何東西。Codex 要先打 `/hooks`，看過這個 hook 並按信任，沒按之前 Codex 會跳過它。
 
 agent 又開始講速記的時候，在 Claude Code 打 `/i-am-the-duck:duck`，在 Codex 打 `$i-am-the-duck:duck`。
+
+其他 host，以及每個 host 的更新和移除指令：**[INSTALL.md](../INSTALL.md)**（英文）。
+
+| Host | 會不會替你載入規則 | 我們測過沒 |
+|---|---|---|
+| Claude Code | 會，每次 session 開頭 | 測過 |
+| Codex | 會，信任 hook 之後 | 測過 |
+| Gemini CLI | 會，透過 `GEMINI.md` | 沒有 |
+| Qwen Code | 不保證，自己叫 `duck` 才穩 | 沒有 |
+| Kimi Code CLI | 不保證，自己叫 `duck` 才穩 | 沒有 |
+| Cursor、Zed、Copilot、Amp 等 | 不會，自己叫 `duck` | 沒有 |
+
+「測過」是指在作者的機器上開真的 session、規則在第一句回覆前載入了。對話壓縮之後會不會重載，兩個 host 都還沒在真的 session 裡測過，只測過 hook 收到那個輸入時的回應。
 
 ## 調整
 
@@ -58,21 +73,25 @@ agent 又開始講速記的時候，在 Claude Code 打 `/i-am-the-duck:duck`，
 
 ## 移除
 
-在 Claude Code 打 `/i-am-the-duck:unduck`，在 Codex 打 `$i-am-the-duck:unduck`。它會列出要刪的東西，等你說好，先清掉舊版手動安裝的殘留，再移除外掛。也可以自己來：
+在 Claude Code 打 `/i-am-the-duck:unduck`，在 Codex 打 `$i-am-the-duck:unduck`。它會告訴你要移除什麼，等你說好，再移除外掛。也可以自己來：
 
 ```
 claude plugin uninstall i-am-the-duck@i-am-the-duck   # 裝在 project 或 local 的話加 --scope
 codex plugin remove i-am-the-duck@i-am-the-duck
 ```
 
+自己手動移除的話，你當初加的 marketplace 還會留著；打 `/i-am-the-duck:unduck` 的話它會問你要不要一起移除。手動的指令是 `claude plugin marketplace remove i-am-the-duck`，Codex 是 `codex plugin marketplace remove i-am-the-duck`。
+
 ## 裡面有什麼
 
 | 路徑 | 是什麼 |
 |---|---|
 | `skills/duck/SKILL.md` | 規則本體。agent 讀的就是這個。 |
-| `skills/unduck/` | 移除用的 skill 和它叫的腳本。 |
+| `skills/unduck/` | 移除用的 skill。 |
 | `hooks/` | session 開頭跑的 hook：一句叫 agent 載入規則，壓縮後叫它重載。 |
-| `.claude-plugin/`、`.codex-plugin/`、`.agents/` | 兩台主機找外掛用的設定檔。 |
+| `.claude-plugin/`、`.codex-plugin/`、`.agents/` | Claude Code 和 Codex 找外掛用的設定檔。 |
+| `gemini-extension.json`、`GEMINI.md`、`qwen-extension.json`、`kimi.plugin.json` | 其他 host 的同類設定檔。`GEMINI.md` 是匯入規則，不是複製一份。 |
+| `INSTALL.md` | 安裝、更新、移除，一個 host 一段。 |
 
 ## 怎麼來的
 

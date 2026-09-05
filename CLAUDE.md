@@ -1,6 +1,6 @@
 # Working in this repo
 
-i-am-the-duck is a Claude Code + Codex plugin: one rule skill (`skills/duck`), one uninstall skill (`skills/unduck`), one SessionStart hook (`hooks/`). Nothing runs except node.
+i-am-the-duck is a Claude Code + Codex plugin: one rule skill (`skills/duck`), one uninstall skill (`skills/unduck`), one SessionStart hook (`hooks/`). Nothing runs except node. Other hosts get a manifest each and no code; Claude Code and Codex must keep working whatever else is added.
 
 ## The rule about the rules
 
@@ -8,19 +8,18 @@ i-am-the-duck is a Claude Code + Codex plugin: one rule skill (`skills/duck`), o
 
 ## Language
 
-`README.md` is English. `docs/README.zh-TW.md` mirrors it; change both in the same commit. `TODO.md` is Traditional Chinese. Code, comments, this file, and commit messages are English.
+`README.md` is English. `docs/README.zh-TW.md` mirrors it; change both in the same commit. `INSTALL.md` is English only, and both READMEs link to it. `TODO.md` is Traditional Chinese. Code, comments, this file, and commit messages are English.
 
 ## Version
 
-`version` is in `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`. Bump both in the same commit.
+`version` is in `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`, `gemini-extension.json`, `qwen-extension.json` and `kimi.plugin.json`. Bump all five in the same commit.
 
 ## Checks before committing
 
 ```
-for f in hooks/session-start.mjs skills/unduck/uninstall.mjs; do node --check "$f"; done   # one file per call: node --check ignores extra arguments
+node --check hooks/session-start.mjs
 echo '{"source":"compact"}' | node hooks/session-start.mjs
-node skills/unduck/uninstall.mjs          # read-only: lists what an older install left behind
-for f in .claude-plugin/*.json .codex-plugin/*.json .agents/plugins/*.json hooks/hooks.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done
+for f in .claude-plugin/*.json .codex-plugin/*.json .agents/plugins/*.json hooks/hooks.json *.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done
 ```
 
 A change to the hook or a manifest is only verified by a local install: `claude plugin marketplace add <this directory>`, `claude plugin install i-am-the-duck@i-am-the-duck`, then a new session.

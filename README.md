@@ -50,9 +50,22 @@ codex plugin marketplace add davidleitw/i-am-the-duck
 codex plugin add i-am-the-duck@i-am-the-duck
 ```
 
-Needs `node` on your PATH. Start a new session: a small hook runs at every session start and after context compaction and tells the agent to load the rules, so you type nothing. In Codex, open `/hooks` once, review the hook and trust it; until you do, Codex skips it.
+Needs `node` 18 or newer on your PATH. Start a new session: a small hook runs at every session start and after context compaction and tells the agent to load the rules, so you type nothing. In Codex, open `/hooks` once, review the hook and trust it; until you do, Codex skips it.
 
 If the agent drifts back into shorthand, type `/i-am-the-duck:duck` in Claude Code or `$i-am-the-duck:duck` in Codex.
+
+Other hosts, and the update and uninstall commands for each: **[INSTALL.md](INSTALL.md)**.
+
+| Host | Loads the rules for you | Tested by us |
+|---|---|---|
+| Claude Code | yes, at every session start | yes |
+| Codex | yes, once you trust the hook | yes |
+| Gemini CLI | yes, through `GEMINI.md` | no |
+| Qwen Code | not guaranteed — invoke `duck` yourself | no |
+| Kimi Code CLI | not guaranteed — invoke `duck` yourself | no |
+| Cursor, Zed, Copilot, Amp, others | no — invoke `duck` yourself | no |
+
+Tested means a real session on the author's machine loaded the rules before the first reply. Reloading after the conversation is compacted has not been tested in a real session on either host; only the hook's answer to that input has.
 
 ## Adjust
 
@@ -60,21 +73,25 @@ Say it in the conversation: shorter, more detail, step by step, or only the resu
 
 ## Uninstall
 
-Type `/i-am-the-duck:unduck` in Claude Code or `$i-am-the-duck:unduck` in Codex. It lists what it will remove, waits for your yes, cleans up anything left by an older hand-installed version, then removes the plugin. Or by hand:
+Type `/i-am-the-duck:unduck` in Claude Code or `$i-am-the-duck:unduck` in Codex. It shows you what will go, waits for your yes, then removes the plugin. Or by hand:
 
 ```
 claude plugin uninstall i-am-the-duck@i-am-the-duck   # add --scope project|local if you installed it there
 codex plugin remove i-am-the-duck@i-am-the-duck
 ```
 
+Removing the plugin by hand leaves the marketplace you added still configured; `/i-am-the-duck:unduck` offers to remove that too. By hand it is `claude plugin marketplace remove i-am-the-duck`, or `codex plugin marketplace remove i-am-the-duck`.
+
 ## What is inside
 
 | Path | What it is |
 |---|---|
 | `skills/duck/SKILL.md` | The rules. This is what the agent reads. |
-| `skills/unduck/` | The uninstall skill and the script it runs. |
+| `skills/unduck/` | The uninstall skill. |
 | `hooks/` | The session-start hook: a short instruction telling the agent to load the rules, or to reload them after compaction. |
-| `.claude-plugin/`, `.codex-plugin/`, `.agents/` | The files each host reads to find the plugin. |
+| `.claude-plugin/`, `.codex-plugin/`, `.agents/` | The files Claude Code and Codex read to find the plugin. |
+| `gemini-extension.json`, `GEMINI.md`, `qwen-extension.json`, `kimi.plugin.json` | The same for the other hosts. `GEMINI.md` imports the rules rather than copying them. |
+| `INSTALL.md` | Install, update and uninstall, one section per host. |
 
 ## Where it came from
 

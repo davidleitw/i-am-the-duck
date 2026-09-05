@@ -2,26 +2,26 @@
 
 只放還沒做的事。做完就整條刪掉，`git log` 才是歷史。每條自成一體：問題是什麼、在哪個檔、做完長什麼樣。
 
-## Codex 壓縮後會不會重新提醒
+## repo 還是私有的
 
-Claude Code 在對話壓縮後會以 `source: "compact"` 再跑一次 SessionStart，`hooks/hooks.json` 的 matcher 有列 compact。Codex 另有獨立的 `post_compact` 事件，SessionStart 在壓縮後會不會再觸發沒查到。驗法：Codex 裝好後把對話撐到壓縮，看 agent 有沒有重新載入 duck。不會的話在 `hooks/hooks.json` 加 PostCompact，並確認 Claude Code 對 PostCompact 的輸出也收進上下文。
+`gh repo view davidleitw/i-am-the-duck` 回 `"visibility":"PRIVATE"`，description、homepage、topics 也都是空的。README 和 `docs/README.zh-TW.md` 開頭那兩組安裝指令，別人一步都走不了。做完長這樣：repo 公開，`gh repo edit` 把說明欄位補上。
 
-## Codex 上外掛 hook 還沒驗證
+## 照 README 逐字裝一次
 
-2026-09-05 這台的 Codex 是手動把 repo clone 進 `~/.codex/plugins/cache/i-am-the-duck/i-am-the-duck/0.0.1/` 並在 config.toml 加 `[plugins."i-am-the-duck@i-am-the-duck"]`，因為 repo 私有、`codex plugin add` 走 https clone 會失敗。skill 已被認出（`codex exec` 看到 `i-am-the-duck:duck`），但 hook 在 `/hooks` 按信任前會被跳過，所以還沒看到它送提示。待辦：在 Codex 裡打 `/hooks` 信任 hook，開新 session 看第一句前有沒有載入；`${CLAUDE_PLUGIN_ROOT}` 在 Codex 的 hook 指令裡會不會展開也在這一步才知道。repo 公開後把手動放的那份拆掉（`codex plugin remove`，不行就刪快取目錄和 config 那段），改用 `codex plugin marketplace add davidleitw/i-am-the-duck` 加 `codex plugin add` 正式裝一次。
+Claude Code 那組跑成功過，但那是因為 repo 擁有者讀得到自己的私有 repo，換成別人會失敗。Codex 那組（`codex plugin marketplace add` 加 `codex plugin add`）從沒跑過，目前是用本機資料夾當來源裝的。repo 公開後在乾淨的地方、用一個讀不到私有 repo 的身分，照兩份 README 逐字跑一次。這一趟順便驗兩件事：`.codex-plugin/plugin.json` 的 interface 現在填了 displayName、shortDescription、longDescription、developerName、category、capabilities、websiteURL、logo、composerIcon，手動放進快取讀得出來，但 `codex plugin add` 的檢查可能更嚴；`.agents/plugins/marketplace.json` 裡的 `"authentication": "ON_INSTALL"` 對公開 repo 大概不需要，沒驗過。兩個 host 都裝得起來就刪掉這條。
 
-## `.codex-plugin/plugin.json` 的 interface 哪些欄位必填
+## 壓縮後 Codex 會不會重新提醒，還沒實測
 
-現在照 ponytail 填了 displayName、shortDescription、longDescription、developerName、category、capabilities、websiteURL、logo、composerIcon。手動放進快取後 `codex plugin list` 讀得出名字和版本，但 `codex plugin add` 沒真的跑過，它的驗證可能更嚴。正式裝一次成功就刪這條。
+Claude Code 壓縮後會用 `source: "compact"` 再跑一次 SessionStart，`hooks/hooks.json` 的 matcher 有列 compact，`hooks/session-start.mjs` 讀 stdin 分辨得出來，這條路驗過了。Codex 的 SessionStart 送進來的 source 也包含 compact，所以同一條路應該通，但沒實測。驗法：在 Codex 裡把對話撐到壓縮，看 agent 有沒有重新載入。真的不通再考慮 Codex 那個獨立的 PostCompact 事件，但注意 PostCompact 不會傳 source 進來，`hooks/session-start.mjs` 得改成從命令列參數判斷，而且 `hooks/hooks.json` 是兩個 host 共用的。
 
-## 另一台機器從舊版換過來
+## 還沒有評測題目
 
-這台 2026-09-05 已換完。另一台還是舊版手動安裝。順序：clone 這個 repo，先跑 `node skills/unduck/uninstall.mjs --yes` 清舊版（會刪 `~/.claude/skills/duck`、`digest`、`~/.agents/skills/` 同名目錄、兩個設定檔裡的 hook、`~/.rubberduck/`），再照 README 裝。Unfold repo 裡的 `rubberduck/` 目錄、`docs/README.md` 的索引列、Unfold `TODO.md` 三條相關項目一併處理。
+`claude plugin eval` 會把同一道題跑兩次（載入這個外掛、不載入），照寫好的標準打分並報出差距，正好是這個外掛要證明的事。題目放在 `evals/<名字>/prompt.md`，打分標準放在 `evals/<名字>/graders/`，`claude plugin eval init --bare` 會產生範本。題目要引誘 agent 講速記才測得出差距，候選五道：計畫裡有「Phase 2」這種標籤、測試有一個失敗、沒裝 node_modules 所以不能說「通過」、一個要動三個檔的任務、把查證丟給別的 agent。前三道用字串比對打分，後兩道交給小模型判斷。這個指令目前是早期功能，預設關閉。`claude plugin eval` 只跑 Claude Code，Codex 那半沒有現成工具。
 
-## hero.png 太大
+## 沒有 .gitignore
 
-`assets/hero.png` 1.3 MB，README 開頭就載入它。這台沒有 pngquant、oxipng、ImageMagick、PIL，沒法壓。裝其中一個後把它量化成 256 色 PNG，扁平插畫應該能到 300 KB 以下；README 顯示寬度 800，1600 寬留給高解析螢幕即可。
+repo 根目錄沒有 `.gitignore`。目前沒有 `.DS_Store` 被追蹤（`git ls-files` 確認過），但這是 macOS，遲早會混進去。
 
-## skill 短名稱能不能用
+## 版本沒有 tag
 
-兩台主機都把 skill 列成 `i-am-the-duck:duck`（Claude 用 `claude -p`、Codex 用 `codex exec` 各問過一次，2026-09-05）。互動時打短名 `/duck`、`$duck` 能不能直接叫到還沒試。能的話把 README 兩份和 `hooks/session-start.mjs` 的提示改短。
+`.claude-plugin/plugin.json` 和 `.codex-plugin/plugin.json` 都是 0.0.1，git 上沒有對應的 tag。`claude plugin tag` 會建 `i-am-the-duck--v0.0.1`，並檢查兩個設定檔和 marketplace 條目對得上。公開前跑一次。
