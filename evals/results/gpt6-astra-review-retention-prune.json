@@ -1,0 +1,81 @@
+{
+  "reviewer": "gpt-6-astra (medium)",
+  "method": "I read the prompt, all six fixture files, and both reply pairs completely, compared explanations against the implementation and test assertions, and treated reported test runs and blocked probes as unverified self-reports.",
+  "pairs": [
+    {
+      "id": "Pair 01",
+      "answers": {
+        "A": {
+          "clarity": 4,
+          "coverage": 5,
+          "faithfulness": 3,
+          "reasons": [
+            "The ordered planning rules, concrete ranking example, and two interruption windows make the flow understandable without reading code.",
+            "Covers decision conditions, transaction boundaries, recovery responsibility, documentation discrepancies, and substantial testing limitations.",
+            "Repeatedly says protection works only for complete snapshots, although non-stale partial snapshots also receive protection; also incorrectly guarantees retention of the newest active snapshot, which could be stale partial."
+          ],
+          "quotes": [
+            "保護只在 `complete` 快照上有效",
+            "所以最新的**活躍**快照一定被保留"
+          ]
+        },
+        "B": {
+          "clarity": 4,
+          "coverage": 4,
+          "faithfulness": 3,
+          "reasons": [
+            "The diagram and question-by-question explanation clearly connect rule order to outcomes, including the all-stale case where nothing survives.",
+            "Covers both interruption windows and distinguishes blocked probes from code deductions, but omits the timestamp tie-break and gives less explicit treatment of real-storage uncertainty.",
+            "Incorrectly says equality with the grace period guarantees retention and concludes protection only covers complete snapshots; its interruption-test description also extends beyond the single-snapshot assertions."
+          ],
+          "quotes": [
+            "如果目錄裡只剩過期的未完成快照，清理後會一個都不剩",
+            "剛好等於寬限期會被保留"
+          ]
+        }
+      },
+      "clarity_preference": "tie",
+      "decision_help_preference": "B",
+      "confidence": "medium",
+      "why": "Both explain the flow clearly and contain consequential overstatements, but B explicitly explains that all-stale input can leave zero snapshots and more accurately describes protection in its main explanation."
+    },
+    {
+      "id": "Pair 02",
+      "answers": {
+        "A": {
+          "clarity": 3,
+          "coverage": 5,
+          "faithfulness": 2,
+          "reasons": [
+            "Provides detailed decision rules and testing boundaries, but contradictory summaries make the actual guarantees harder to follow.",
+            "Thoroughly covers fresh partial deletion, both interruption windows, repeated apply, absent recovery, and unknown caller and storage behavior.",
+            "Falsely claims interruption causes an extra deletion and that the interruption test disproves restart recovery; also excludes fresh partial protection and overstates the keep_last quantity guarantee."
+          ],
+          "quotes": [
+            "等於一次中斷會讓下次清理多刪一份",
+            "文件說會自動收尾、測試說不會收尾，兩者直接衝突"
+          ]
+        },
+        "B": {
+          "clarity": 4,
+          "coverage": 4,
+          "faithfulness": 3,
+          "reasons": [
+            "The flow diagram and final checklist make planning precedence and the plan/apply timing distinction easy to follow.",
+            "Addresses the main questions and untested combinations, but omits interruption after payload removal, multi-item progress, and the timestamp tie-break.",
+            "Incorrectly declares protection ineffective for all partial snapshots and claims tests call list_state; also attributes deleted_at verification to a test that never asserts it."
+          ],
+          "quotes": [
+            "釘選和 `legal-hold` 標籤在「未完成的快照」身上完全不生效",
+            "但只有測試呼叫它，正式流程沒有任何地方用到"
+          ]
+        }
+      },
+      "clarity_preference": "B",
+      "decision_help_preference": "B",
+      "confidence": "high",
+      "why": "B presents a more consistent operational explanation, while A's unsupported extra-deletion claim and misinterpretation of the interruption test materially distort the user's decision."
+    }
+  ],
+  "overall_note": "All four replies identify stale-partial precedence, partial consumption of retention slots, and the absence of implemented automatic recovery, but all overgeneralize protection failures beyond stale partial snapshots. None of their reported test executions or probe restrictions was independently verified."
+}

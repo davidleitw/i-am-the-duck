@@ -16,11 +16,15 @@
 
 ## 初步結果
 
-**Opus 5（high）的回覆字元平均少 33%，輸出 token 平均少 50%。**
+**Opus 5（high）配 Duck：回覆字元少 33% 到 44%，輸出 token 少 32% 到 50%，耗時少 31% 到 44%，費用少 25% 到 39%。最新一題裡，Claude Fable 5.1 和 GPT-6 Astra 兩位盲讀者在每一對都把「對決策的幫助」判給 Duck，清晰度和決策幫助沒有一次判給 baseline。**
 
-![依模型比較，有無 Duck 的回覆字元與輸出 token。](../evals/assets/initial-results.svg)
+![依題目與模型比較，有無 Duck 的回覆字元與輸出 token。](../evals/assets/initial-results.svg)
 
-Duck 幫助你理解 agent 的行為與判斷依據，減少重複說明與閱讀負擔。這些是初步評測觀察，後續會補上更多任務與模型的評測。[數據與 Astra 盲讀結果](../evals/results/README.md)。
+同樣的發現，少一半的閱讀量。Duck 的回覆先講結論，把清理流程畫成流程圖、分岔條件寫在箭頭上，照提問者的問題順序回答，最後給一張按程式實際判斷順序排的決策清單。baseline 找到同樣的 bug，用了 1.8 倍的文字，每開一個檔案就寫一則英文進度。baseline 列的邊角問題比較多、涵蓋度分數較高；兩位審閱者仍然把「對提問者真正要做的決定有沒有幫助」判給 Duck。
+
+第一題只有一位審閱者，他把兩邊的品質打成平手，這正是重點：Duck 把 Opus 的輸出 token 砍一半，量不出品質損失。GPT-5.6 Luna 的 baseline 本來就比 Opus 短四分之一，Duck 在它身上對長度的影響很小（字元少 5.7%、輸出 token 多 2.3%）。
+
+每一包匿名回覆都同時交給兩位盲讀者：Claude Fable 5.1 和 GPT-6 Astra，在開 key 之前先評清晰度、涵蓋度、忠實度。目前兩題、Opus 與 Luna 合計 9 對，更多題目和模型會陸續補上。[數據與兩份盲讀](../evals/results/README.md)。
 
 ## 會差在哪
 

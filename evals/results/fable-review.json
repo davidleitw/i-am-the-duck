@@ -1,0 +1,64 @@
+{
+  "reviewer": "Claude Fable 5.1 (the primary interpreter, running inside Claude Code)",
+  "method": "Read each pair's review/anonymous.md completely, including progress messages, and fixed the ratings before opening private/KEY.json. The key for Pair 01 was opened before Pair 02 was read.",
+  "disclosures": [
+    "The reviewer authored the retention-prune fixture and case, so it knew the planted doc-vs-code mismatches and test gaps in advance. This sharpens the faithfulness check but is a bias source.",
+    "The reviewer is also the agent that installed and evaluated the plugin, not an independent party.",
+    "Ratings are judgments on a 1-5 ordinal scale, not measurements. Shortness and Chinese were not rewarded by themselves."
+  ],
+  "pairs": [
+    {
+      "id": "Pair 01",
+      "source_batch": "retention-prune-opus-20260908",
+      "answers": {
+        "A": {
+          "clarity": 3, "coverage": 5, "faithfulness": 4,
+          "reasons": [
+            "Audit-report layout with dense file:line citations and self-invented labels (缺陷 A / 缺陷 B); eight progress messages in English narrate each read step.",
+            "Deepest coverage: state machine accepts any transition, no concurrency guard, misleading test name test_fresh_partial_is_kept.",
+            "One overstatement: says protection only works for complete snapshots; a partial inside the grace period is also protected by the pinned and tag checks."
+          ],
+          "quotes": ["保護只在 `complete` 快照上有效——因為 `complete` 永遠不會進入第一輪。"]
+        },
+        "B": {
+          "clarity": 5, "coverage": 4, "faithfulness": 5,
+          "reasons": [
+            "Leads with a verdict table, draws the plan/apply flow with the fork conditions on the arrows, then answers the asker's four questions in order with tested/implemented split inline.",
+            "Six-step decision order follows the code's actual evaluation order.",
+            "Less peripheral depth than A; no error found."
+          ],
+          "quotes": ["關鍵在第一輪與第二輪的先後：**保護只在第二輪生效**。", "誰收尾？程式裡沒有人。"]
+        }
+      },
+      "clarity_preference": "B", "decision_help_preference": "B", "confidence": "medium",
+      "why": "Both are correct on every planted issue; B is easier to follow and its decision order is directly usable, while A adds depth the asker did not request at the cost of length and one overstatement."
+    },
+    {
+      "id": "Pair 02",
+      "source_batch": "retention-prune-opus-20260908-r2",
+      "answers": {
+        "A": {
+          "clarity": 3, "coverage": 5, "faithfulness": 3,
+          "reasons": [
+            "Longest reply of the four; seven English progress messages; five-level headings.",
+            "Adds a correct point B lacks: a partial inside the grace period but beyond keep_last is deleted too.",
+            "One substantive error: claims a snapshot stuck in deleting makes the next prune delete one more survivor. It was already beyond keep_last, so its absence does not change any newer snapshot's rank. Also overstates that the interrupt test 'fixes' the no-recovery behaviour."
+          ],
+          "quotes": ["**不再佔用 `keep_last` 名額**，等於中斷會靜默縮減倖存的備份數。"]
+        },
+        "B": {
+          "clarity": 5, "coverage": 4, "faithfulness": 4,
+          "reasons": [
+            "Chinese from the first progress message; verdict first; flow diagram marks the exact fork where pinned and tags are ignored.",
+            "Misses the grace-period partial beyond keep_last path.",
+            "One minor error: says list_state is called only by tests; nothing calls it."
+          ],
+          "quotes": ["★ 這裡不看 pinned、也不看 tags", "跟團隊說明時，我建議把第 2 步單獨標紅"]
+        }
+      },
+      "clarity_preference": "B", "decision_help_preference": "B", "confidence": "high",
+      "why": "B carries the asker from verdict to a usable decision order with one minor slip; A is thorough but longer, and its one wrong causal claim is the kind a team would repeat."
+    }
+  ],
+  "overall_note": "In both pairs the reviewer preferred B on clarity and decision help before the key was opened; both B replies were the Duck arm. Two pairs on one synthetic task cannot support a general claim."
+}
