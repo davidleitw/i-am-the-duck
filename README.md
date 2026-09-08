@@ -10,9 +10,17 @@ Rubber duck debugging, reversed. You are the duck.
 
 Rubber duck debugging is the old trick where you explain your code, line by line, to a rubber duck on your desk. Somewhere in the explanation you find the bug yourself. The duck does nothing. Having to say it out loud, in plain words, is what works.
 
-This plugin turns that around. The coding agent does the work, and you are the duck. It has to explain every change in words you can follow without reading the code or the tool output: what it is about to change and why, what came of it, what that rests on, and what it has not checked.
+This plugin turns that around. The coding agent does the work, and you are the duck. It explains meaningful work in words you can follow without reading the code or the tool output: what is happening and why, what came of it, and what the available evidence supports. It calls out an untested or inferred part when it changes what you can rely on.
 
-It started as a joke. It stayed because an agent that has to explain a change in plain words is also an agent that notices when the change has no good reason.
+It started as a joke. It stayed because explaining a change in plain words can expose when the reason is missing.
+
+## Early results
+
+**33% fewer reply characters · 50% fewer output tokens with Opus 5 (high).**
+
+![Reply characters and output tokens with and without Duck, by model.](evals/assets/initial-results.svg)
+
+Duck helps you follow the agent's actions and decisions with less repetition and less to read. These are early findings; we will evaluate more tasks and models. [Data and Astra blind review](evals/results/README.md).
 
 ## What changes
 
@@ -22,15 +30,15 @@ Without it, a long session drifts into shorthand:
 
 With it:
 
-> Moved the timeout check from the hook into the daemon, so a restart no longer skips it. `npm test`: 24 passed, 0 failed. I did not run the Codex side; it is not installed here.
+> Restarting the service now resumes the timeout check, so overdue work is still detected. `npm test`: 24 passed, 0 failed. I did not run the Codex side; it is not installed here.
 
 Three habits:
 
-- **Before changing anything** with one clear purpose, one or two sentences: what will change and why. Reading, searching, and running tests need no announcement.
-- **After**, what it produced, what that rests on, and what is not confirmed. Every number comes with the command that produced it. "Passes" without a run behind it is not allowed.
-- **Words** are the ones you and the repository already use. One-off steps get no name. A new name appears only when it will come up again, and the first time it does, it is explained in one sentence. Labels from plans and tickets you never read get explained too.
+- **Before meaningful work** with one clear purpose, say what will happen and why. Reading, searching, and running tests need no announcement.
+- **After meaningful work**, say what happened and the evidence or difference that matters. Call out an untested or inferred part when it changes what you can rely on; do not add checks just to fill out the report.
+- **Words** describe concrete actions or results. Names from code, specifications, plans, tickets, or earlier conversation are labels, not explanations. Use an exact name when it helps locate or distinguish something, then say what it does; otherwise replace it with the concrete action or result. Reuse established context after compaction instead of explaining labels again.
 
-Decisions come with options and evidence. Work handed to another agent comes back summarized, with whether it was checked.
+Decisions explain the trade-off that matters for each option and, when relevant, whether its evidence is tested or expected. Work handed to another agent comes back as a result summary, with whether it was checked and any limitation that matters.
 
 It does not decide what you approve, how far a task goes, what is risky, or whether the code is right. It only makes the agent explain.
 
@@ -50,7 +58,7 @@ codex plugin marketplace add davidleitw/i-am-the-duck
 codex plugin add i-am-the-duck@i-am-the-duck
 ```
 
-Needs `node` 18 or newer on your PATH. Start a new session: a small hook runs at every session start and after context compaction and tells the agent to load the rules, so you type nothing. In Codex, open `/hooks` once, review the hook and trust it; until you do, Codex skips it.
+Needs `node` 18 or newer on your PATH. Start a new session: a small hook runs at every session start and after context compaction and includes the complete rules in its instruction, so the agent can apply them without searching or rereading them. In Codex, open `/hooks` once, review the hook and trust it; until you do, Codex skips it.
 
 If the agent drifts back into shorthand, type `/i-am-the-duck:duck` in Claude Code or `$i-am-the-duck:duck` in Codex.
 
@@ -88,7 +96,7 @@ Removing the plugin by hand leaves the marketplace you added still configured; `
 |---|---|
 | `skills/duck/SKILL.md` | The rules. This is what the agent reads. |
 | `skills/unduck/` | The uninstall skill. |
-| `hooks/` | The session-start hook: a short instruction telling the agent to load the rules, or to reload them after compaction. |
+| `hooks/` | The session-start hook: it includes the complete rules at session start and after compaction. |
 | `.claude-plugin/`, `.codex-plugin/`, `.agents/` | The files Claude Code and Codex read to find the plugin. |
 | `gemini-extension.json`, `GEMINI.md`, `qwen-extension.json`, `kimi.plugin.json` | The same for the other hosts. `GEMINI.md` imports the rules rather than copying them. |
 | `INSTALL.md` | Install, update and uninstall, one section per host. |
@@ -100,3 +108,5 @@ Long agent sessions grow a private language. "All green" when the run said one f
 ## License
 
 MIT
+
+Maintainers: the optional [evaluation workflow](evals/README.md) stays outside the installed skills and hooks.

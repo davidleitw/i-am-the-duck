@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// SessionStart hook. Reads the event from stdin and prints one instruction back as
-// additionalContext. Fails open: on any error it exits 0 with no output, and it waits
-// at most one second for stdin, so it can never keep a session from starting.
+// SessionStart hook. Reads the event and adjacent skill, then provides the rules
+// as additionalContext. Fails open with exit 0 and no output on errors. The stdin
+// wait is bounded to one second; the host's hook timeout bounds the whole command.
 import { stdin, stdout } from 'node:process';
+import { readFile } from 'node:fs/promises';
 
-const LOAD = 'Load the duck skill (listed as i-am-the-duck:duck) now, before your first reply. Do not tell the user you are loading it.';
-const RELOAD = 'Your context was just compacted. Load the duck skill (listed as i-am-the-duck:duck) again before continuing. The user may no longer see where earlier terms were explained, so in your next report explain every project label again. Do not tell the user you are loading it.';
+const SKILL_PATH = new URL('../skills/duck/SKILL.md', import.meta.url);
+const LOAD = 'The complete duck instructions below are already loaded. Apply them before your first reply. Do not search for or reread the skill, and do not tell the user you loaded it.';
+const RELOAD = 'Your context was just compacted. The complete duck instructions below are already reloaded. Apply them before continuing. Do not search for or reread the skill, and do not tell the user you loaded it.';
 
 function readStdin(ms) {
   return new Promise((resolve) => {
@@ -22,8 +24,12 @@ function readStdin(ms) {
 try {
   let source = '';
   try { source = JSON.parse(await readStdin(1000)).source ?? ''; } catch { /* no readable payload: treat as a fresh start */ }
+  const skill = await readFile(SKILL_PATH, 'utf8');
   stdout.write(JSON.stringify({
-    hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: source === 'compact' ? RELOAD : LOAD },
+    hookSpecificOutput: {
+      hookEventName: 'SessionStart',
+      additionalContext: `${source === 'compact' ? RELOAD : LOAD}\n\n${skill}`,
+    },
   }) + '\n');
 } catch { /* fail open */ }
 process.exitCode = 0;

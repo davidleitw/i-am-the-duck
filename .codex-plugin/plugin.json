@@ -1,7 +1,7 @@
 {
   "name": "i-am-the-duck",
-  "version": "0.0.4",
-  "description": "Rubber duck debugging, reversed: you are the duck. The agent explains every step in plain words, with evidence, without inventing names.",
+  "version": "0.0.5",
+  "description": "Rubber duck debugging, reversed: you are the duck. The agent explains meaningful work in plain words, grounded in available evidence.",
   "author": {
     "name": "davidleitw",
     "url": "https://github.com/davidleitw"
@@ -15,7 +15,7 @@
   "interface": {
     "displayName": "I Am the Duck",
     "shortDescription": "Rubber duck debugging, reversed",
-    "longDescription": "You are the duck. The agent explains every step in plain words, with evidence, without inventing names.",
+    "longDescription": "You are the duck. The agent explains meaningful work in plain words, grounded in available evidence.",
     "developerName": "davidleitw",
     "category": "Productivity",
     "capabilities": ["Instructions", "Lifecycle hooks"],

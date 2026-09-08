@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330">
+<title>Early results: Reply characters and Output tokens</title>
+<desc>Off is the 100 percent gray baseline. Duck is the dark gold comparison. Values are averages from the initial data.</desc>
+<rect class="bg" width="100%" height="100%" fill="#fffdf7"/>
+<style>text{font-family:system-ui,-apple-system,sans-serif;fill:#25231f} .title{font-size:24px;font-weight:700} .label{font-size:14px} .small{font-size:12px} .axis{stroke:#8d877d;stroke-width:1} .grid{stroke:#d8d1c4;stroke-width:1} .baseline{stroke:#4b4945;stroke-width:1.5;stroke-dasharray:5 4} @media (prefers-color-scheme:dark){.bg{fill:#171612} text{fill:#f5efe4}.axis{stroke:#aaa397}.grid{stroke:#5b564d}.baseline{stroke:#d1c8b8}}</style>
+<text x="48" y="38" class="title">Early results</text>
+<rect x="730" y="22" width="16" height="16" fill="#77736e"/><text x="753" y="35" class="small">Off = 100%</text>
+<rect x="840" y="22" width="16" height="16" fill="#9a6500"/><text x="863" y="35" class="small">Duck</text>
+<text x="55" y="58" class="label">Reply characters</text>
+<line x1="55" y1="245.0" x2="440" y2="245.0" class="grid"/>
+<text x="25" y="249.0" class="small">0</text>
+<line x1="55" y1="175.4" x2="440" y2="175.4" class="grid"/>
+<text x="25" y="179.4" class="small">50</text>
+<line x1="55" y1="105.8" x2="440" y2="105.8" class="baseline"/>
+<text x="25" y="109.8" class="small">100</text>
+<line x1="55" y1="78.0" x2="440" y2="78.0" class="grid"/>
+<text x="25" y="82.0" class="small">120</text>
+<rect x="117" y="105.8" width="30" height="139.2" fill="#77736e"/>
+<text x="132" y="99.8" text-anchor="middle" class="small">100%</text>
+<rect x="160" y="152.0" width="30" height="93.0" fill="#9a6500"/>
+<text x="175" y="146.0" text-anchor="middle" class="small">-33.2%</text>
+<text x="153" y="269" text-anchor="middle" class="small">Opus 5 high</text>
+<rect x="277" y="105.8" width="30" height="139.2" fill="#77736e"/>
+<text x="292" y="99.8" text-anchor="middle" class="small">100%</text>
+<rect x="320" y="113.8" width="30" height="131.2" fill="#9a6500"/>
+<text x="335" y="107.8" text-anchor="middle" class="small">-5.7%</text>
+<text x="313" y="269" text-anchor="middle" class="small">Luna max</text>
+<line x1="55" y1="78" x2="55" y2="245" class="axis"/>
+<line x1="55" y1="245" x2="440" y2="245" class="axis"/>
+<text x="505" y="58" class="label">Output tokens</text>
+<line x1="505" y1="245.0" x2="890" y2="245.0" class="grid"/>
+<text x="475" y="249.0" class="small">0</text>
+<line x1="505" y1="175.4" x2="890" y2="175.4" class="grid"/>
+<text x="475" y="179.4" class="small">50</text>
+<line x1="505" y1="105.8" x2="890" y2="105.8" class="baseline"/>
+<text x="475" y="109.8" class="small">100</text>
+<line x1="505" y1="78.0" x2="890" y2="78.0" class="grid"/>
+<text x="475" y="82.0" class="small">120</text>
+<rect x="567" y="105.8" width="30" height="139.2" fill="#77736e"/>
+<text x="582" y="99.8" text-anchor="middle" class="small">100%</text>
+<rect x="610" y="175.1" width="30" height="69.9" fill="#9a6500"/>
+<text x="625" y="169.1" text-anchor="middle" class="small">-49.8%</text>
+<text x="603" y="269" text-anchor="middle" class="small">Opus 5 high</text>
+<rect x="727" y="105.8" width="30" height="139.2" fill="#77736e"/>
+<text x="742" y="99.8" text-anchor="middle" class="small">100%</text>
+<rect x="770" y="102.7" width="30" height="142.3" fill="#9a6500"/>
+<text x="785" y="96.7" text-anchor="middle" class="small">+2.3%</text>
+<text x="763" y="269" text-anchor="middle" class="small">Luna max</text>
+<line x1="505" y1="78" x2="505" y2="245" class="axis"/>
+<line x1="505" y1="245" x2="890" y2="245" class="axis"/>
+<text x="48" y="310" class="small">Duck labels show change from Off; bar heights remain relative to the 100% Off baseline. Axes start at zero.</text>
+</svg>
