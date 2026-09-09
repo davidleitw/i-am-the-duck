@@ -99,11 +99,14 @@ def resolve_options(engine, model, effort):
     return model, effort
 
 
-def build_plan(repeats):
+def build_plan(repeats, arm=None):
     if repeats < 1:
         raise ValueError("repeats must be positive")
-    return [{"arm": arm, "repeat": repeat}
-            for repeat in range(1, repeats + 1) for arm in ARMS]
+    if arm is not None and arm not in ARMS:
+        raise ValueError(f"unknown arm: {arm}")
+    arms = ARMS if arm is None else (arm,)
+    return [{"arm": selected_arm, "repeat": repeat}
+            for repeat in range(1, repeats + 1) for selected_arm in arms]
 
 
 def text_of(value):
@@ -542,6 +545,8 @@ def parse_args(argv=None):
     parser.add_argument("--effort")
     parser.add_argument("--case", type=Path, required=True)
     parser.add_argument("--repeats", type=int, default=1)
+    parser.add_argument("--arm", choices=ARMS, default=None,
+                        help="run one arm; omit to run the off/on pair")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--plugin", type=Path, default=ROOT)
     parser.add_argument("--dry-run", action="store_true")
@@ -568,7 +573,7 @@ def main(argv=None):
         pass
     else:
         raise ValueError("output must not be inside the fixture directory")
-    plan = build_plan(args.repeats)
+    plan = build_plan(args.repeats, args.arm)
     if args.dry_run:
         print(json.dumps({"engine": args.engine, "model": args.model, "effort": args.effort,
                           "case": case["id"], "runs": plan, "output": str(args.output)}, ensure_ascii=False, indent=2))
@@ -581,9 +586,10 @@ def main(argv=None):
     args.output.mkdir(parents=True)
     plugin_snapshot = args.output / "plugin-snapshot"
     plugin_hashes = plugin_files(args.plugin, plugin_snapshot, args.engine)
+    selected_arms = list(dict.fromkeys(row["arm"] for row in plan))
     put_json(args.output / "manifest.json", {
         "created_at": datetime.now(timezone.utc).isoformat(), "engine": args.engine,
-        "model": args.model, "effort": args.effort, "repeats": args.repeats, "arms": list(ARMS),
+        "model": args.model, "effort": args.effort, "repeats": args.repeats, "arms": selected_arms,
         "case": {"id": case["id"], "prompt": case["prompt"], "path": str(args.case),
                  "sha256": digest_file(args.case), "fixture": str(fixture), "fixture_sha256": digest_tree(fixture)},
         "plugin": str(args.plugin), "plugin_snapshot": str(plugin_snapshot),
