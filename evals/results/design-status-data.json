@@ -1,0 +1,28 @@
+{
+  "case": "design-status",
+  "fixture": "private: snapshot of one of the maintainer's own repositories plus seven design-review documents from a real session; not published",
+  "date": "2026-09-09",
+  "engine": "claude",
+  "model": "claude-opus-5",
+  "effort": "high",
+  "design": "3 Off runs, 4 Duck runs, one at a time, execution order drawn at random before the first run: off, off, on, on, on, on, off. All 7 runs ok; every Duck run had the full skill text in the session-start hook output before its first reply; no Off run had a plugin in the init event. Permission denials: run off-3 one, runs on-3 and on-4 one each, all probes rejected by the fixed tool allowlist.",
+  "runs": [
+    {"public_id": "R88", "arm": "off", "final_chars": 2358, "messages": 2, "output_tokens": 7663, "thinking_tokens": 3292, "cache_read_input_tokens": 243203, "cache_creation_input_tokens": 49177, "cost_estimate_usd": 0.805, "elapsed_seconds": 133.8},
+    {"public_id": "R28", "arm": "off", "final_chars": 2487, "messages": 1, "output_tokens": 7945, "thinking_tokens": 3369, "cache_read_input_tokens": 287805, "cache_creation_input_tokens": 43190, "cost_estimate_usd": 0.775, "elapsed_seconds": 142.4},
+    {"public_id": "R36", "arm": "off", "final_chars": 2518, "messages": 2, "output_tokens": 7892, "thinking_tokens": 3288, "cache_read_input_tokens": 266910, "cache_creation_input_tokens": 45827, "cost_estimate_usd": 0.789, "elapsed_seconds": 139.2},
+    {"public_id": "R53", "arm": "on", "final_chars": 1486, "messages": 4, "output_tokens": 5296, "thinking_tokens": 1979, "cache_read_input_tokens": 148305, "cache_creation_input_tokens": 31449, "cost_estimate_usd": 0.521, "elapsed_seconds": 98.9},
+    {"public_id": "R69", "arm": "on", "final_chars": 1740, "messages": 4, "output_tokens": 5793, "thinking_tokens": 1777, "cache_read_input_tokens": 157096, "cache_creation_input_tokens": 31473, "cost_estimate_usd": 0.538, "elapsed_seconds": 110.6},
+    {"public_id": "R77", "arm": "on", "final_chars": 1641, "messages": 2, "output_tokens": 5804, "thinking_tokens": 2707, "cache_read_input_tokens": 183734, "cache_creation_input_tokens": 49404, "cost_estimate_usd": 0.731, "elapsed_seconds": 110.5},
+    {"public_id": "R72", "arm": "on", "final_chars": 1825, "messages": 4, "output_tokens": 4993, "thinking_tokens": 1810, "cache_read_input_tokens": 132403, "cache_creation_input_tokens": 49343, "cost_estimate_usd": 0.685, "elapsed_seconds": 93.5}
+  ],
+  "means": {
+    "final_chars": {"off": 2454.3, "duck": 1673.0, "change_pct": -31.8},
+    "output_tokens": {"off": 7833.3, "duck": 5471.5, "change_pct": -30.2},
+    "thinking_tokens": {"off": 3316.3, "duck": 2068.3, "change_pct": -37.6},
+    "cache_read_input_tokens": {"off": 265972.7, "duck": 155384.5, "change_pct": -41.6},
+    "cache_creation_input_tokens": {"off": 46064.7, "duck": 40417.3, "change_pct": -12.3},
+    "cost_estimate_usd": {"off": 0.79, "duck": 0.62, "change_pct": -21.6},
+    "elapsed_seconds": {"off": 138.5, "duck": 103.4, "change_pct": -25.3}
+  },
+  "notes": "final_chars counts the final assistant message only; earlier public slices counted all visible messages. Cost is the Claude CLI's own estimate, not a bill. Output tokens are the provider's total for the run, not the reply length."
+}

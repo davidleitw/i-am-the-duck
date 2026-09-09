@@ -20,6 +20,12 @@ python3 -B run.py --engine codex --case cases/job-recovery.json \
   --output /absolute/path/to/new-output
 ```
 
+Use `--arm off` or `--arm on` to run one arm. Omitting `--arm` keeps the off/on
+pair, and `manifest.json` records the arms selected for that invocation. To run
+the on arm later with an existing frozen snapshot, pass its directory with
+`--plugin` and use a new output directory; the runner does not resume an earlier
+run.
+
 Use `--engine claude` for Claude Code. Defaults are Codex `gpt-5.6-luna/max` and Claude `claude-opus-5/high`; pass `--model` and `--effort` explicitly when choosing another supported value. The runner records the requested and observed model rather than silently substituting one.
 
 The case fixture is resolved relative to its JSON file. Each run gets a random, non-arm workspace. `off` has no plugin; `on` receives a frozen copy containing only the selected manifest, Duck/unduck skills, hooks, and referenced logo asset. The runner does not copy `evals`, raw output, auth files, or other repository files into that plugin.
@@ -29,3 +35,5 @@ Output includes the case/prompt hash, commands with settings/auth redacted, prov
 Codex uses a temporary `CODEX_HOME`, a copied login file that is never saved to output, a local marketplace/cache snapshot, and the existing trusted hook when it can be proven from the real config. Claude keeps the real OAuth/config location, uses local setting sources, disables CLAUDE.md/auto-memory/background/title side effects, and restricts tools to reading plus the README unittest command. Missing auth, trust, model, plugin, result, or required hook evidence is preserved as a failure and stops later runs.
 
 The fixture is a local SQLite stand-in. It has no external services and is not a production reliability claim.
+
+Private cases built from the maintainer's own repositories live under `evals/_private/` (cases, fixtures, design notes, pack tools), which `.gitignore` excludes. Their usage data and reviewer scores are published under `results/`; their fixtures and reply texts are not.

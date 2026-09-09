@@ -16,15 +16,13 @@ It started as a joke. It stayed because explaining a change in plain words can e
 
 ## Early results
 
-**With Opus 5 (high), Duck cut reply characters 33–44%, output tokens 32–50%, wall-clock time 31–44% and cost 25–39%. On the newest task, two blind reviewers, Claude Fable 5.1 and GPT-6 Astra, preferred the Duck reply for decision help in every pair and never preferred the baseline on clarity or decision help.**
+**Across three tasks on Opus 5 (high), Duck cut reply characters and output tokens by roughly a third to a half, and wall-clock time and cost by a fifth to two fifths, with blind reviewers rating the answers as correct as the baseline's.**
 
-![Reply characters and output tokens with and without Duck, by task and model.](evals/assets/initial-results.svg)
+![Reply characters and output tokens with and without Duck, by task, on Opus 5 high.](evals/assets/initial-results.svg)
 
-Same findings, less to read. The Duck replies opened with the verdict, drew the prune flow with the fork conditions written on the arrows, answered the asker's questions in the asker's order, and closed with a decision checklist in the code's real evaluation order. The baseline replies found the same bugs in 1.8× the text, with an English progress note for every file they opened. The baseline listed more peripheral gaps and scored higher on coverage; the reviewers still preferred Duck for the decision the asker actually had to make.
+Same findings, less to read. The Duck replies open with the verdict, draw a flow only where a fork decides the outcome, answer the asker's questions in the asker's order, and say which claims were checked in code and which were only read.
 
-The first task's single reviewer scored the two arms even on quality, which is the point: Duck halved Opus output tokens with no measured loss. On GPT-5.6 Luna, whose baseline replies were already a quarter shorter than Opus's, the effect on length was small (-5.7% characters, +2.3% output tokens).
-
-Every anonymous reply pack goes to two blind reviewers at once, Claude Fable 5.1 and GPT-6 Astra, who score clarity, coverage and faithfulness before the arm key is opened. Two tasks and 9 Opus and Luna pairs so far; more tasks and models are coming. [Data and both blind reviews](evals/results/README.md).
+The newest task came from a real session where the agent reported a design's status in reviewer finding numbers and spec section codes until the asker had to ask for plain language. Every reply was scored by blind reviewers before the arms were revealed, and the one reply all of them called plain was a Duck reply. [Data and the blind reviews](evals/results/README.md).
 
 ## What changes
 
